@@ -43,6 +43,8 @@ namespace StorageTool.Lib.AzureBlob
                     {
                         await dest.UploadFromStreamAsync(sourceStream);
                     }
+                    dest.Properties.ContentType = source.ContentType;
+                    await dest.SetPropertiesAsync();
                     feedback.ObjectUploadFinished(asb.FullAddress);
                     return asb;
                 }

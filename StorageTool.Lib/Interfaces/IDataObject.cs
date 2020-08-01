@@ -10,6 +10,8 @@ namespace StorageTool.Lib.Interfaces
 
         long Size { get; }
 
+        string ContentType { get; }
+
         DateTime UpdateTimestamp { get; }
 
         Task<Stream> GetReadStreamAsync();
