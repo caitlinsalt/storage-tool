@@ -19,6 +19,8 @@ namespace StorageTool.Lib.AzureBlob
 
         public long Size => _underlyingBlob.Properties.Length;
 
+        public string ContentType => _underlyingBlob.Properties.ContentType;
+
         public DateTime UpdateTimestamp => GetBlobLastModifiedTime();
 
         private string BaseHash => _underlyingBlob.Properties.ContentMD5;
