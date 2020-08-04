@@ -9,7 +9,7 @@ namespace StorageTool.Lib
         UploadExisting = 2,
         UploadDeletions = 4,
         UploadForceExisting = 8,
-        UploadAll = 7,
+        UploadAll = 15,
         DownloadNew = 16,
         DownloadExisting = 32,
         DownloadDeletions = 64,
