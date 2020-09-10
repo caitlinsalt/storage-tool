@@ -1,4 +1,5 @@
-﻿using StorageTool.Lib.Interfaces;
+﻿using Microsoft.AspNetCore.StaticFiles;
+using StorageTool.Lib.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace StorageTool.Lib.Local
 {
     public class LocalFile : IDataObject
     {
+        private static FileExtensionContentTypeProvider _provider = new FileExtensionContentTypeProvider();
+
         public string ShortName => Path.GetFileName(FullAddress);
 
         public string FullAddress { get; }
@@ -16,6 +19,8 @@ namespace StorageTool.Lib.Local
         public byte[] Hash => GetMd5();
 
         public long Size => GetSize();
+
+        public string ContentType => GetContentTypeFromName();
 
         public DateTime UpdateTimestamp => File.GetLastWriteTimeUtc(FullAddress);
 
@@ -70,6 +75,16 @@ namespace StorageTool.Lib.Local
             {
                 return -1;
             }
+        }
+
+        private string GetContentTypeFromName()
+        {
+            string contentType;
+            if (!_provider.TryGetContentType(ShortName, out contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            return contentType;
         }
     }
 }
