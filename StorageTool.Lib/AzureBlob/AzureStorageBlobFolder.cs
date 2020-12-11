@@ -25,7 +25,8 @@ namespace StorageTool.Lib.AzureBlob
                 // 2) either options.Existing or options.ForceExisting is set, the blob exists, and the blob's hash and size are the same as the local copy
                 if (alreadyExists && ((options & (OneWaySynchronisationOptions.Existing | OneWaySynchronisationOptions.ForceExisting)) != 0))
                 {
-                    if ((asb.HashEquals(source) && asb.Size == source.Size) || (((options & OneWaySynchronisationOptions.ForceExisting) == 0) && source.UpdateTimestamp <= asb.UpdateTimestamp))
+                    if ((((options & OneWaySynchronisationOptions.ForceExisting) == 0) && source.UpdateTimestamp <= asb.UpdateTimestamp) ||
+                        (asb.HashEquals(source) && asb.Size == source.Size))
                     {
                         feedback.ObjectUploadSkipped(asb.FullAddress);
                         return asb;

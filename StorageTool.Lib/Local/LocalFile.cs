@@ -12,6 +12,8 @@ namespace StorageTool.Lib.Local
     {
         private static FileExtensionContentTypeProvider _provider = new FileExtensionContentTypeProvider();
 
+        private byte[] _cachedHash = null;
+
         public string ShortName => Path.GetFileName(FullAddress);
 
         public string FullAddress { get; }
@@ -48,13 +50,18 @@ namespace StorageTool.Lib.Local
 
         private byte[] GetMd5()
         {
+            if (_cachedHash != null)
+            {
+                return _cachedHash;
+            }
             try
             {
                 using (FileStream stream = File.OpenRead(FullAddress))
                 using (MD5 hash = MD5.Create())
                 {
                     hash.ComputeHash(stream);
-                    return hash.Hash;
+                    _cachedHash = hash.Hash.ToArray();
+                    return _cachedHash;
                 }
             }
             catch (Exception ex)
